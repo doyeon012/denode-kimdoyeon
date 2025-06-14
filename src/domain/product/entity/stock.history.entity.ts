@@ -1,8 +1,7 @@
 import { BaseEntity } from 'src/domain/common/base.entity';
-
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Product } from './product.entity';
-import { StockMovement, StockMovementType } from 'src/enums/stock.movement.type.enum';
+import { StockMovementEnum, StockMovementType } from 'src/enums/stock.movement.type.enum';
 
 @Entity()
 export class StockHistory extends BaseEntity {
@@ -14,9 +13,9 @@ export class StockHistory extends BaseEntity {
   @Column({
     nullable: false,
     type: 'enum',
-    enum: StockMovementType,
+    enum: StockMovementEnum,
   })
-  type: StockMovement;
+  type: StockMovementType;
 
   @Column({
     nullable: false,
