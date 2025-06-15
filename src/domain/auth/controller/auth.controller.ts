@@ -2,7 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../service/auth.service';
 import { Public } from 'src/decorator/public.decorator';
-import { TokenResponse } from '../dto/response/refresh.token.response';
+import { TokenResponse } from '../dto/response/token.response';
 import { RegisterRequest } from '../dto/request/register.request';
 import { LoginRequest } from '../dto/request/login.request';
 

@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DBConfig } from './config/db.config';
 import { DomainModule } from './domain/domain.module';
 import configuration from './config/configuration';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -16,6 +17,9 @@ import configuration from './config/configuration';
       imports: [ConfigModule],
       inject: [ConfigService],
       useClass: DBConfig,
+    }),
+    JwtModule.register({
+      global: true,
     }),
     DomainModule,
   ],
