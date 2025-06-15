@@ -7,7 +7,7 @@ import { ErrorMessageType } from 'src/enums/error.message.enum';
 
 @Injectable()
 export default class AuthGuard implements CanActivate {
-  public static readonly ACCESS_TOKEN_HEADER = 'access-token';
+  public static readonly ACCESS_TOKEN_HEADER = 'authorization';
   private readonly ACCESS_TOKEN_SECRET_KEY: string;
 
   constructor(
@@ -15,7 +15,8 @@ export default class AuthGuard implements CanActivate {
     private configService: ConfigService,
     private reflector: Reflector,
   ) {
-    this.ACCESS_TOKEN_SECRET_KEY = this.configService.get<string>('auth.ACCESS_TOKEN_SECRET_KEY') || 'default_access_secret';
+    this.ACCESS_TOKEN_SECRET_KEY =
+      this.configService.get<string>('auth.ACCESS_TOKEN_SECRET_KEY') || 'default_access_secret';
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {

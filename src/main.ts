@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { EnvEnum, EnvEnumType } from './enums/env.enum';
 import { setUpSwagger } from './config/swagger.config';
+import AuthGuard from './middleware/auth/auth.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,6 +13,8 @@ async function bootstrap() {
   if (env !== EnvEnum.PROD) {
     setUpSwagger(app);
   }
+
+  app.useGlobalGuards(app.get(AuthGuard));
 
   const port = configService.get('port');
   await app.listen(port);

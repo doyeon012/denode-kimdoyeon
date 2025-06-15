@@ -5,6 +5,7 @@ import { DBConfig } from './config/db.config';
 import { DomainModule } from './domain/domain.module';
 import configuration from './config/configuration';
 import { JwtModule } from '@nestjs/jwt';
+import AuthGuard from './middleware/auth/auth.guard';
 
 @Module({
   imports: [
@@ -24,6 +25,6 @@ import { JwtModule } from '@nestjs/jwt';
     DomainModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [AuthGuard],
 })
 export class AppModule {}
