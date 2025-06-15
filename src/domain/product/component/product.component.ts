@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { ProductDao } from '../dao/product.dao';
-import { Product } from '../entity/product.entity';
 import { CreateProductDto } from '../dto/request/create.product.dto';
 
 @Injectable()
