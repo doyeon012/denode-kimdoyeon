@@ -11,15 +11,15 @@ export class Users extends BaseEntity {
 
   @Column({
     nullable: false,
-    length: 255,
+    name: 'login_id',
   })
-  password: string;
+  loginId: string;
 
   @Column({
     nullable: false,
     length: 255,
   })
-  confirm_password: string;
+  password: string;
 
   @Column({
     nullable: false,
