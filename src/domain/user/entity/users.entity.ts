@@ -37,7 +37,4 @@ export class Users extends BaseEntity {
     nullable: false,
   })
   age: number;
-
-  @OneToMany(() => Product, (product) => product.user)
-  products: Promise<Product[]>;
 }

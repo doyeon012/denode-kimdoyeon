@@ -9,12 +9,7 @@ export class UsersDao {
   constructor(@InjectRepository(Users) private usersRepository: Repository<Users>) {}
 
   async create(createUserDto: CreateUserDto): Promise<void> {
-    const user = new Users();
-    user.loginId = createUserDto.loginId;
-    user.password = createUserDto.password;
-    user.name = createUserDto.name;
-    user.nickname = createUserDto.nickname;
-    user.age = createUserDto.age;
+    const user = this.usersRepository.create(createUserDto);
 
     await this.usersRepository.save(user);
   }
