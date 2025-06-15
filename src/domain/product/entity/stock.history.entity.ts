@@ -6,7 +6,7 @@ import { StockMovementEnum, StockMovementType } from 'src/enums/stock.movement.t
 @Entity()
 export class StockHistory extends BaseEntity {
   @PrimaryGeneratedColumn('increment', {
-    name: 'inventory_transaction_id',
+    name: 'stock_history_id',
   })
   id: number;
 
