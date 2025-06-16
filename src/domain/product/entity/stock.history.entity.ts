@@ -27,6 +27,12 @@ export class StockHistory extends BaseEntity {
   })
   reason: string;
 
+  @Column({
+    nullable: false,
+    name: 'product_id',
+  })
+  productId: number;
+
   @ManyToOne(() => Product, (product) => product.stockHistory, {
     nullable: false,
     onUpdate: 'CASCADE',

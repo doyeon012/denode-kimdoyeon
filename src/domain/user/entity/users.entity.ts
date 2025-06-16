@@ -1,4 +1,5 @@
 import { BaseEntity } from 'src/domain/common/base.entity';
+import { Inventory } from 'src/domain/product/entity/inventory.entity';
 import { Product } from 'src/domain/product/entity/product.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -40,4 +41,7 @@ export class Users extends BaseEntity {
 
   @OneToMany(() => Product, (product) => product.user)
   products: Promise<Product[]>;
+
+  @OneToMany(() => Inventory, (inventory) => inventory.user)
+  inventory: Promise<Inventory[]>;
 }
