@@ -40,9 +40,22 @@ export class Product extends BaseEntity {
   })
   status: ProductStatusType;
 
+  @Column({
+    nullable: false,
+    name: 'users_id',
+  })
+  userId: number;
+
   @OneToMany(() => Inventory, (inventory) => inventory.product)
   inventory: Promise<Inventory[]>;
 
   @OneToMany(() => StockHistory, (stockHistory) => stockHistory.product)
   stockHistory: Promise<StockHistory[]>;
+
+  @ManyToOne(() => Users, (user) => user.products, {
+    nullable: false,
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'users_id' })
+  user: Promise<Users>;
 }

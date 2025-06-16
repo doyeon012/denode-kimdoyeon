@@ -12,7 +12,13 @@ export class ProductService {
     private stockHistoryComponent: InventoryComponent,
   ) {}
 
-  public async createProduct(request: ProductCreateRequest): Promise<number> {
-    return this.productComponent.create(request);
+  public async createProduct(request: ProductCreateRequest, requesterId: number): Promise<number> {
+    
+    const createProductDto: CreateProductDto = {
+      ...request,
+      userId: requesterId
+    }
+    
+    return this.productComponent.create(createProductDto);
   }
 }

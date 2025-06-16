@@ -1,4 +1,5 @@
 import { BaseEntity } from 'src/domain/common/base.entity';
+import { Product } from 'src/domain/product/entity/product.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -36,4 +37,7 @@ export class Users extends BaseEntity {
     nullable: false,
   })
   age: number;
+
+  @OneToMany(() => Product, (product) => product.user)
+  products: Promise<Product[]>;
 }

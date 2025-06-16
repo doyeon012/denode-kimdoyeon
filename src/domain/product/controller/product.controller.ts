@@ -4,6 +4,7 @@ import { ProductService } from '../service/product.service';
 import { ProductCreateRequest } from '../dto/request/product.create.request';
 import AuthGuard from 'src/middleware/auth/auth.guard';
 import { ErrorMessageType } from 'src/enums/error.message.enum';
+import { AuthUser, Token } from 'src/decorator/toekn.decorator';
 
 @ApiTags('product')
 @Controller('product')
@@ -19,7 +20,7 @@ export class ProductController {
     type: ProductCreateRequest,
     description: 'Product creation information',
   })
-  async createProduct(@Body() request: ProductCreateRequest): Promise<number> {
-    return this.productService.createProduct(request);
+  async createProduct(@Body() request: ProductCreateRequest, @Token() user: AuthUser): Promise<number> {
+    return this.productService.createProduct(request, user.id);
   }
 }

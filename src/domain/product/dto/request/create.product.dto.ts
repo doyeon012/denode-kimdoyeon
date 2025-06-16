@@ -4,5 +4,6 @@ export interface CreateProductDto {
   name: string;
   price: number;
   description: string;
+  userId: number;
   status: ProductStatusType;
 }
