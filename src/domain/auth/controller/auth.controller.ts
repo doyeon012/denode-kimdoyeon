@@ -24,7 +24,10 @@ export class AuthController {
 
   @Public()
   @Post('login')
-  @ApiOkResponse({ description: 'Login successful' })
+  @ApiOkResponse({
+    description: 'Login successful',
+    type: TokenResponse,
+  })
   @ApiBody({
     type: LoginRequest,
     description: 'Login information to get access and refresh tokens',
