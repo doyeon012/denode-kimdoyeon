@@ -14,4 +14,8 @@ export class ProductDao {
     await this.productRepository.save(product);
     return product.id;
   }
+
+  async findByName(name: string): Promise<Product | null> {
+    return this.productRepository.findOneBy({ name });
+  }
 }
