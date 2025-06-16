@@ -3,8 +3,13 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { EnvEnum, EnvEnumType } from './enums/env.enum';
 import { setUpSwagger } from './config/swagger.config';
+import AuthGuard from './middleware/auth/auth.guard';
+import { initializeTransactionalContext } from 'typeorm-transactional';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
+  initializeTransactionalContext();
+
   const app = await NestFactory.create(AppModule);
   const configService: ConfigService = app.get(ConfigService);
 
@@ -13,6 +18,12 @@ async function bootstrap() {
     setUpSwagger(app);
   }
 
+  app.useGlobalGuards(app.get(AuthGuard));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    })
+  )
   const port = configService.get('port');
   await app.listen(port);
 }

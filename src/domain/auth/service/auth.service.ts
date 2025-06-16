@@ -58,9 +58,9 @@ export class AuthService {
     };
   }
 
-  private generateAccessToken(userId: number): string {
+  private generateAccessToken(id: number): string {
     return this.jwtService.sign(
-      { userId },
+      { id },
       {
         secret: this.ACCESS_TOKEN_SECRET_KEY,
         expiresIn: AuthService.ACCESS_TOKEN_TTL,
@@ -68,9 +68,9 @@ export class AuthService {
     );
   }
 
-  private generateRefreshToken(userId: number): string {
+  private generateRefreshToken(id: number): string {
     return this.jwtService.sign(
-      { userId },
+      { id },
       {
         secret: this.REFRESH_TOKEN_SECRET_KEY,
         expiresIn: AuthService.REFRESH_TOKEN_TTL,

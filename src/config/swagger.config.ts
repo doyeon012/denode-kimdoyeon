@@ -5,19 +5,17 @@ import { writeFileSync } from 'fs';
 import * as path from 'path';
 import AuthGuard from 'src/middleware/auth/auth.guard';
 
-
 export function setUpSwagger(app: INestApplication) {
   const configService: ConfigService = app.get(ConfigService);
-  const config  = new DocumentBuilder()
+  const config = new DocumentBuilder()
     .setTitle('denode-kimdoyeon API')
     .setDescription('denode-kimdoyeon API documentation')
     .setVersion(configService.get('version')!)
     .addBearerAuth(
       {
-        type: 'apiKey',
+        type: 'http',
         scheme: 'bearer',
-        name: AuthGuard.ACCESS_TOKEN_HEADER,
-        in: 'header',
+        bearerFormat: 'JWT',
         description: 'Enter your access token',
       },
       AuthGuard.ACCESS_TOKEN_HEADER,
