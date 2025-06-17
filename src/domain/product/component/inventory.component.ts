@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InventoryDao } from '../dao/inventory.dao';
 import { CreateInventoryDto } from '../dto/request/create.invetory.dto';
 import { Inventory } from '../entity/inventory.entity';
-import { OrderingOptionEnumType } from 'src/enums/ordering.option.enum';
 
 @Injectable()
 export class InventoryComponent {

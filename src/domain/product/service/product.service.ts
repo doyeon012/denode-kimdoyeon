@@ -11,6 +11,9 @@ import { Transactional } from 'typeorm-transactional';
 import { InventoryQueryRequest } from '../dto/request/inventory.query.request';
 import { InventoryListResponse } from '../dto/response/inventory.list.response';
 import { Inventory } from '../entity/inventory.entity';
+import { StockHistoryListResponse } from '../dto/response/stock.history.list.response';
+import { StockHistory } from '../entity/stock.history.entity';
+import { StockMovementType } from 'src/enums/stock.movement.type.enum';
 
 @Injectable()
 export class ProductService {
@@ -117,6 +120,22 @@ export class ProductService {
 
     return {
       items: paginatedInventories,
+    };
+  }
+
+  public async getStockHistory(type?: StockMovementType): Promise<StockHistoryListResponse> {
+    let stockHistories: StockHistory[] = [];
+
+    if (type === 'IN') {
+      stockHistories = await this.stockHistoryComponent.findByType('IN');
+    } else if (type === 'OUT') {
+      stockHistories = await this.stockHistoryComponent.findByType('OUT');
+    } else {
+      stockHistories = await this.stockHistoryComponent.findAll();
+    }
+
+    return {
+      items: stockHistories,
     };
   }
 }

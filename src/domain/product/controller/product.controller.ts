@@ -19,13 +19,15 @@ import { InventoryOutboundRequest } from '../dto/request/inventory.outbound.requ
 import { InventoryQueryRequest } from '../dto/request/inventory.query.request';
 import { OrderingOptionEnum } from 'src/enums/ordering.option.enum';
 import { InventoryListResponse } from '../dto/response/inventory.list.response';
+import { StockHistoryListResponse } from '../dto/response/stock.history.list.response';
+import { StockMovementEnum, StockMovementType } from 'src/enums/stock.movement.type.enum';
 
-@ApiTags('product')
-@Controller('product')
+@ApiTags('products')
+@Controller('products')
 export class ProductController {
   constructor(private productService: ProductService) {}
 
-  @Post('product/create')
+  @Post('create')
   @ApiBearerAuth(AuthGuard.ACCESS_TOKEN_HEADER)
   @ApiOkResponse({ description: 'Product created successfully' })
   @ApiUnauthorizedResponse({ description: ErrorMessageType.UNAUTHORIZED })
@@ -79,5 +81,17 @@ export class ProductController {
   @ApiQuery({ name: 'sort', enum: OrderingOptionEnum, required: false })
   async getInventories(@Query() query: InventoryQueryRequest, @Token() user: AuthUser): Promise<InventoryListResponse> {
     return this.productService.getInventories(query, user.id);
+  }
+
+  @Get('stockhistory')
+  @ApiBearerAuth(AuthGuard.ACCESS_TOKEN_HEADER)
+  @ApiOkResponse({
+    description: 'Stock history retrieved successfully',
+    type: StockHistoryListResponse,
+  })
+  @ApiQuery({ name: 'type', enum: StockMovementEnum, required: false })
+  @ApiBadRequestResponse({ description: ErrorMessageType.NOT_FOUND_STOCK_HISTORY })
+  async getStockHistory(@Query('type') type?: StockMovementType): Promise<StockHistoryListResponse> {
+    return this.productService.getStockHistory(type);
   }
 }
