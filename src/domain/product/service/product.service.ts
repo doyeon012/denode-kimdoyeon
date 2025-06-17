@@ -99,7 +99,7 @@ export class ProductService {
     }
   }
 
-  public async getInventories(query: InventoryQueryRequest, requesterId: number): Promise<InventoryListResponse> {
+  public async getInventories(query: InventoryQueryRequest): Promise<InventoryListResponse> {
     let inventories: Inventory[] = [];
 
     if (query.productId) {

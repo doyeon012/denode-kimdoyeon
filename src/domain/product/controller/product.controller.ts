@@ -79,8 +79,8 @@ export class ProductController {
   @ApiQuery({ name: 'page', type: Number, required: false })
   @ApiQuery({ name: 'limit', type: Number, required: false })
   @ApiQuery({ name: 'sort', enum: OrderingOptionEnum, required: false })
-  async getInventories(@Query() query: InventoryQueryRequest, @Token() user: AuthUser): Promise<InventoryListResponse> {
-    return this.productService.getInventories(query, user.id);
+  async getInventories(@Query() query: InventoryQueryRequest): Promise<InventoryListResponse> {
+    return this.productService.getInventories(query);
   }
 
   @Get('stockhistory')
