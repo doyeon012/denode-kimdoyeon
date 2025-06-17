@@ -1,11 +1,14 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
-export class InventoryItemResponse{
+export class InventoryItemResponse {
+  @ApiProperty({ example: '2025-06-17T16:33:33.294Z' })
+  createdAt: Date;
+
+  @ApiProperty({ example: '2025-06-17T16:33:35.000Z' })
+  updatedAt: Date;
+
   @ApiProperty({ example: 1 })
   id: number;
-  
-  @ApiProperty({ example: 1 })
-  productId: number;
 
   @ApiProperty({ example: 100 })
   quantity: number;
@@ -14,11 +17,8 @@ export class InventoryItemResponse{
   expiryDate: Date;
 
   @ApiProperty({ example: 1 })
-  userId: number;
+  productId: number;
 
-  @ApiProperty({ example: '2023-01-01T00:00:00Z' })
-  createdAt: Date;
-  
-  @ApiProperty({ example: '2023-01-01T00:00:00Z' })
-  updatedAt: Date;
+  @ApiProperty({ example: 1 })
+  userId: number;
 }
