@@ -1,4 +1,4 @@
-import { EnvEnum } from 'src/enums/env.enum';
+import { EnvEnum } from '@enums/env.enum';
 
 export default () => ({
   host: process.env.HOST || 'http://localhost:3000',

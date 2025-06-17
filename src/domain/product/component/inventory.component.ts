@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { InventoryDao } from '../dao/inventory.dao';
-import { CreateInventoryDto } from '../dto/request/create.invetory.dto';
-import { Inventory } from '../entity/inventory.entity';
+import { InventoryDao } from '@domain/product/dao/inventory.dao';
+import { CreateInventoryDto } from '@domain/product/dto/request/create.invetory.dto';
+import { Inventory } from '@domain/product/entity/inventory.entity';
 
 @Injectable()
 export class InventoryComponent {

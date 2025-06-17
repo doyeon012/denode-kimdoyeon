@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
-import { ProductStatusEnum, ProductStatusType } from 'src/enums/product.status.enum';
+import { ProductStatusEnum, ProductStatusType } from '@enums/product.status.enum';
 
 export class ProductCreateRequest {
   @ApiProperty({ example: 'kim' })

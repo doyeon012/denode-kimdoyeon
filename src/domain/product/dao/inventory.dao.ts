@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Inventory } from '../entity/inventory.entity';
+import { Inventory } from '@domain/product/entity/inventory.entity';
 import { Raw, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateInventoryDto } from '../dto/request/create.invetory.dto';
+import { CreateInventoryDto } from '@domain/product/dto/request/create.invetory.dto';
 
 @Injectable()
 export class InventoryDao {

@@ -1,4 +1,4 @@
-import { ProductStatusType } from 'src/enums/product.status.enum';
+import { ProductStatusType } from '@enums/product.status.enum';
 
 export interface CreateProductDto {
   name: string;

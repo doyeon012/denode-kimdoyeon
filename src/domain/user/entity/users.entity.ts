@@ -1,6 +1,6 @@
-import { BaseEntity } from 'src/domain/common/base.entity';
-import { Inventory } from 'src/domain/product/entity/inventory.entity';
-import { Product } from 'src/domain/product/entity/product.entity';
+import { BaseEntity } from '@domain/common/base.entity';
+import { Inventory } from '@domain/product/entity/inventory.entity';
+import { Product } from '@domain/product/entity/product.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

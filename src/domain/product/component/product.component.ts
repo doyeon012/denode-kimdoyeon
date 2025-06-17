@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ProductDao } from '../dao/product.dao';
-import { CreateProductDto } from '../dto/request/create.product.dto';
-import { Product } from '../entity/product.entity';
+import { ProductDao } from '@domain/product/dao/product.dao';
+import { CreateProductDto } from '@domain/product/dto/request/create.product.dto';
+import { Product } from '@domain/product/entity/product.entity';
 
 @Injectable()
 export class ProductComponent {

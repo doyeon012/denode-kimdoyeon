@@ -1,10 +1,10 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { AuthService } from '../service/auth.service';
-import { Public } from 'src/decorator/public.decorator';
-import { TokenResponse } from '../dto/response/token.response';
-import { RegisterRequest } from '../dto/request/register.request';
-import { LoginRequest } from '../dto/request/login.request';
+import { AuthService } from '@domain/auth/service/auth.service';
+import { Public } from '@decorator/public.decorator';
+import { TokenResponse } from '@domain/auth/dto/response/token.response';
+import { RegisterRequest } from '@domain/auth/dto/request/register.request';
+import { LoginRequest } from '@domain/auth/dto/request/login.request';
 
 @ApiTags('auth')
 @Controller('auth')

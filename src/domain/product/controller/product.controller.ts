@@ -9,18 +9,18 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { ProductService } from '../service/product.service';
-import { ProductCreateRequest } from '../dto/request/product.create.request';
-import AuthGuard from 'src/middleware/auth/auth.guard';
-import { ErrorMessageType } from 'src/enums/error.message.enum';
-import { AuthUser, Token } from 'src/decorator/toekn.decorator';
-import { InventoryInboundRequest } from '../dto/request/inventory.inbound.request';
-import { InventoryOutboundRequest } from '../dto/request/inventory.outbound.request';
-import { InventoryQueryRequest } from '../dto/request/inventory.query.request';
-import { OrderingOptionEnum } from 'src/enums/ordering.option.enum';
-import { InventoryListResponse } from '../dto/response/inventory.list.response';
-import { StockHistoryListResponse } from '../dto/response/stock.history.list.response';
-import { StockMovementEnum, StockMovementType } from 'src/enums/stock.movement.type.enum';
+import { ProductService } from '@domain/product/service/product.service';
+import { ProductCreateRequest } from '@domain/product/dto/request/product.create.request';
+import AuthGuard from '@middleware/auth/auth.guard';
+import { ErrorMessageType } from '@enums/error.message.enum';
+import { AuthUser, Token } from '@decorator/toekn.decorator';
+import { InventoryInboundRequest } from '@domain/product/dto/request/inventory.inbound.request';
+import { InventoryOutboundRequest } from '@domain/product/dto/request/inventory.outbound.request';
+import { InventoryQueryRequest } from '@domain/product/dto/request/inventory.query.request';
+import { OrderingOptionEnum } from '@enums/ordering.option.enum';
+import { InventoryListResponse } from '@domain/product/dto/response/inventory.list.response';
+import { StockHistoryListResponse } from '@domain/product/dto/response/stock.history.list.response';
+import { StockMovementEnum, StockMovementType } from '@enums/stock.movement.type.enum';
 
 @ApiTags('products')
 @Controller('products')

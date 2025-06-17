@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Product } from './product.entity';
-import { BaseEntity } from 'src/domain/common/base.entity';
-import { Users } from 'src/domain/user/entity/users.entity';
+import { Product } from '@domain/product/entity/product.entity';
+import { BaseEntity } from '@domain/common/base.entity';
+import { Users } from '@domain/user/entity/users.entity';
 
 @Entity()
 export class Inventory extends BaseEntity {
@@ -28,7 +28,7 @@ export class Inventory extends BaseEntity {
 
   @Column({
     nullable: false,
-    name: 'users_id', 
+    name: 'users_id',
   })
   userId: number;
 

@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
-import { EnvEnum } from 'src/enums/env.enum';
+import { EnvEnum } from '@enums/env.enum';
 @Injectable()
 export class DBConfig implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService) {}

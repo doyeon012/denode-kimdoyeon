@@ -1,7 +1,7 @@
-import { BaseEntity } from 'src/domain/common/base.entity';
+import { BaseEntity } from '@domain/common/base.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Product } from './product.entity';
-import { StockMovementEnum, StockMovementType } from 'src/enums/stock.movement.type.enum';
+import { Product } from '@domain/product/entity/product.entity';
+import { StockMovementEnum, StockMovementType } from '@enums/stock.movement.type.enum';
 
 @Entity()
 export class StockHistory extends BaseEntity {

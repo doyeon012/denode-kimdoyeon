@@ -1,4 +1,4 @@
-import { StockMovementType } from "src/enums/stock.movement.type.enum";
+import { StockMovementType } from "@enums/stock.movement.type.enum";
 
 export interface CreateStockHistoryDto {
   type: StockMovementType

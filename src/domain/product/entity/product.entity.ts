@@ -1,9 +1,9 @@
-import { BaseEntity } from 'src/domain/common/base.entity';
-import { Users } from 'src/domain/user/entity/users.entity';
-import { ProductStatusEnum, ProductStatusType } from 'src/enums/product.status.enum';
+import { BaseEntity } from '@domain/common/base.entity';
+import { Users } from '@domain/user/entity/users.entity';
+import { ProductStatusEnum, ProductStatusType } from '@enums/product.status.enum';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Inventory } from './inventory.entity';
-import { StockHistory } from './stock.history.entity';
+import { Inventory } from '@domain/product/entity/inventory.entity';
+import { StockHistory } from '@domain/product/entity/stock.history.entity';
 
 @Entity()
 export class Product extends BaseEntity {

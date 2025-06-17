@@ -1,19 +1,19 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { ProductComponent } from '../component/product.component';
-import { InventoryComponent } from '../component/inventory.component';
-import { ProductCreateRequest } from '../dto/request/product.create.request';
-import { CreateProductDto } from '../dto/request/create.product.dto';
-import { InventoryInboundRequest } from '../dto/request/inventory.inbound.request';
-import { ErrorMessageType } from 'src/enums/error.message.enum';
-import { InventoryOutboundRequest } from '../dto/request/inventory.outbound.request';
-import { StockHistoryComponent } from '../component/stock.history.component';
+import { ProductComponent } from '@domain/product/component/product.component';
+import { InventoryComponent } from '@domain/product/component/inventory.component';
+import { ProductCreateRequest } from '@domain/product/dto/request/product.create.request';
+import { CreateProductDto } from '@domain/product/dto/request/create.product.dto';
+import { InventoryInboundRequest } from '@domain/product/dto/request/inventory.inbound.request';
+import { ErrorMessageType } from '@enums/error.message.enum';
+import { InventoryOutboundRequest } from '@domain/product/dto/request/inventory.outbound.request';
+import { StockHistoryComponent } from '@domain/product/component/stock.history.component';
 import { Transactional } from 'typeorm-transactional';
-import { InventoryQueryRequest } from '../dto/request/inventory.query.request';
-import { InventoryListResponse } from '../dto/response/inventory.list.response';
-import { Inventory } from '../entity/inventory.entity';
-import { StockHistoryListResponse } from '../dto/response/stock.history.list.response';
-import { StockHistory } from '../entity/stock.history.entity';
-import { StockMovementType } from 'src/enums/stock.movement.type.enum';
+import { InventoryQueryRequest } from '@domain/product/dto/request/inventory.query.request';
+import { InventoryListResponse } from '@domain/product/dto/response/inventory.list.response';
+import { Inventory } from '@domain/product/entity/inventory.entity';
+import { StockHistoryListResponse } from '@domain/product/dto/response/stock.history.list.response';
+import { StockHistory } from '@domain/product/entity/stock.history.entity';
+import { StockMovementType } from '@enums/stock.movement.type.enum';
 
 @Injectable()
 export class ProductService {

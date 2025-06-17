@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsOptional, Max, Min } from 'class-validator';
-import { OrderingOptionEnumType } from 'src/enums/ordering.option.enum';
+import { OrderingOptionEnumType } from '@enums/ordering.option.enum';
 
 export class InventoryQueryRequest {
   @ApiProperty({ example: 1 })

@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { StockHistory } from '../entity/stock.history.entity';
+import { StockHistory } from '@domain/product/entity/stock.history.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateStockHistoryDto } from '../dto/request/create.stock.history.dto';
-import { StockMovementType } from 'src/enums/stock.movement.type.enum';
+import { CreateStockHistoryDto } from '@domain/product/dto/request/create.stock.history.dto';
+import { StockMovementType } from '@enums/stock.movement.type.enum';
 
 @Injectable()
 export class StockHistoryDao {
