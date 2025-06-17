@@ -8,6 +8,12 @@ import { ErrorMessageType } from 'src/enums/error.message.enum';
 import { InventoryOutboundRequest } from '../dto/request/inventory.outbound.request';
 import { StockHistoryComponent } from '../component/stock.history.component';
 import { Transactional } from 'typeorm-transactional';
+import { InventoryQueryRequest } from '../dto/request/inventory.query.request';
+import { InventoryListResponse } from '../dto/response/inventory.list.response';
+import { Inventory } from '../entity/inventory.entity';
+import { StockHistoryListResponse } from '../dto/response/stock.history.list.response';
+import { StockHistory } from '../entity/stock.history.entity';
+import { StockMovementType } from 'src/enums/stock.movement.type.enum';
 
 @Injectable()
 export class ProductService {
@@ -91,5 +97,45 @@ export class ProductService {
         remainingQuantity = 0;
       }
     }
+  }
+
+  public async getInventories(query: InventoryQueryRequest): Promise<InventoryListResponse> {
+    let inventories: Inventory[] = [];
+
+    if (query.productId) {
+      inventories = await this.inventoryComponent.findByProductId(query.productId);
+    } else {
+      inventories = await this.inventoryComponent.findAll();
+    }
+
+    if (query.sort === 'LATEST') {
+      inventories.sort((a, b) => b.expiryDate.getTime() - a.expiryDate.getTime());
+    } else {
+      inventories.sort((a, b) => a.expiryDate.getTime() - b.expiryDate.getTime());
+    }
+
+    const startIndex = (query.page - 1) * query.limit;
+    const endIndex = startIndex + query.limit;
+    const paginatedInventories = inventories.slice(startIndex, endIndex);
+
+    return {
+      items: paginatedInventories,
+    };
+  }
+
+  public async getStockHistory(type?: StockMovementType): Promise<StockHistoryListResponse> {
+    let stockHistories: StockHistory[] = [];
+
+    if (type === 'IN') {
+      stockHistories = await this.stockHistoryComponent.findByType('IN');
+    } else if (type === 'OUT') {
+      stockHistories = await this.stockHistoryComponent.findByType('OUT');
+    } else {
+      stockHistories = await this.stockHistoryComponent.findAll();
+    }
+
+    return {
+      items: stockHistories,
+    };
   }
 }

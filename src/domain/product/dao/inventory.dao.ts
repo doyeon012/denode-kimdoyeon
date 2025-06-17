@@ -40,4 +40,12 @@ export class InventoryDao {
       order: { expiryDate: 'ASC' },
     });
   }
+
+  async findByProductId(productId: number): Promise<Inventory[]> {
+    return this.inventoryRepository.find({ where: { productId } });
+  }
+
+  async findAll(): Promise<Inventory[]> {
+    return this.inventoryRepository.find();
+  }
 }

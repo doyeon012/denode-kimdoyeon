@@ -5,8 +5,8 @@ import { Inventory } from '../entity/inventory.entity';
 
 @Injectable()
 export class InventoryComponent {
-  constructor(private inventoryDao: InventoryDao) { }
-  
+  constructor(private inventoryDao: InventoryDao) {}
+
   public async create(createInventoryDto: CreateInventoryDto): Promise<number> {
     return this.inventoryDao.create(createInventoryDto);
   }
@@ -31,4 +31,11 @@ export class InventoryComponent {
     return this.inventoryDao.findByProductIdOrderByExpiryDate(productId);
   }
 
+  public async findByProductId(productId: number): Promise<Inventory[]> {
+    return this.inventoryDao.findByProductId(productId);
+  }
+
+  public async findAll(): Promise<Inventory[]> {
+    return this.inventoryDao.findAll();
+  }
 }
