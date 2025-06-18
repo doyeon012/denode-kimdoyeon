@@ -8,7 +8,10 @@ import { initializeTransactionalContext } from 'typeorm-transactional';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  initializeTransactionalContext();
+  if (!global.transactionalContextInitialized) {
+    initializeTransactionalContext();
+    global.transactionalContextInitialized = true;
+  }
 
   const app = await NestFactory.create(AppModule);
   const configService: ConfigService = app.get(ConfigService);

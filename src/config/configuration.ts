@@ -9,7 +9,7 @@ export default () => ({
     REFRESH_TOKEN_SECRET_KEY: process.env.REFRESH_TOKEN_SECRET_KEY || 'denode_refresh_token_secret_key',
   },
   db: {
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST || 'mysql',
     port: parseInt(process.env.DB_PORT || '3306', 10),
     username: process.env.DB_USERNAME || 'root',
     password: process.env.DB_PASSWORD || '1234',

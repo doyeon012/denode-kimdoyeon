@@ -10,6 +10,7 @@ export const ErrorMessageType = {
 
   TOKEN_NOT_PROVIDED: '토큰이 제공되지 않았습니다.',
   INVALID_TOKEN: '유효하지 않은 토큰입니다.',
+  DB_CONFIG_NOT_FOUND: 'DB 설정을 찾을 수 없습니다.'
 } as const;
 
 export type ErrorMessageEnumType = (typeof ErrorMessageType)[keyof typeof ErrorMessageType];
