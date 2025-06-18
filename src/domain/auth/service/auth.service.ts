@@ -30,11 +30,14 @@ export class AuthService {
       throw new BadRequestException(ErrorMessageType.PASSWORD_MISMATCH);
     }
 
+    if (await this.userComponent.findByLoginId(request.loginId)) {
+      throw new BadRequestException(ErrorMessageType.USER_ALREADY_EXISTS);
+    }
+
     const hashedPassword = await bcrypt.hash(request.password, 10);
     await this.userComponent.create({
       ...request,
       password: hashedPassword,
-      confirmPassword: hashedPassword,
     });
   }
 
