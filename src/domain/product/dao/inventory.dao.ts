@@ -15,10 +15,6 @@ export class InventoryDao {
     return inventory.id;
   }
 
-  async delete(id: number): Promise<void> {
-    await this.inventoryRepository.delete(id);
-  }
-
   async findById(id: number): Promise<Inventory | null> {
     return this.inventoryRepository.findOneBy({ id });
   }

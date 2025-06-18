@@ -130,7 +130,7 @@ export class ProductService {
           });
 
           remainingQuantity -= inventory.quantity;
-          await this.inventoryComponent.delete(inventory.id);
+          await this.inventoryComponent.updateQuantity(inventory.id, 0);
         } else {
           await this.stockHistoryComponent.create({
             type: 'OUT',

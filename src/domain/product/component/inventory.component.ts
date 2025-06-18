@@ -11,9 +11,6 @@ export class InventoryComponent {
     return this.inventoryDao.create(createInventoryDto);
   }
 
-  public async delete(id: number): Promise<void> {
-    await this.inventoryDao.delete(id);
-  }
 
   public async findById(id: number): Promise<Inventory | null> {
     return this.inventoryDao.findById(id);
