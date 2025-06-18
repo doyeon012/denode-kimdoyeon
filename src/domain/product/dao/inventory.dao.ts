@@ -15,8 +15,8 @@ export class InventoryDao {
     return inventory.id;
   }
 
-  async delete(inventoryId: number): Promise<void> {
-    await this.inventoryRepository.delete(inventoryId);
+  async delete(id: number): Promise<void> {
+    await this.inventoryRepository.delete(id);
   }
 
   async findById(id: number): Promise<Inventory | null> {
@@ -30,8 +30,8 @@ export class InventoryDao {
     });
   }
 
-  async updateQuantity(inventoryId: number, quantity: number): Promise<void> {
-    await this.inventoryRepository.update(inventoryId, { quantity });
+  async updateQuantity(id: number, quantity: number): Promise<void> {
+    await this.inventoryRepository.update(id, { quantity });
   }
 
   async findByProductIdOrderByExpiryDate(productId: number): Promise<Inventory[]> {

@@ -11,20 +11,20 @@ export class InventoryComponent {
     return this.inventoryDao.create(createInventoryDto);
   }
 
-  public async delete(inventoryId: number): Promise<void> {
-    await this.inventoryDao.delete(inventoryId);
+  public async delete(id: number): Promise<void> {
+    await this.inventoryDao.delete(id);
   }
 
-  public async findById(inventoryId: number): Promise<Inventory | null> {
-    return this.inventoryDao.findById(inventoryId);
+  public async findById(id: number): Promise<Inventory | null> {
+    return this.inventoryDao.findById(id);
   }
 
   public async findByProductAndDate(productId: number, dateOnly: string): Promise<Inventory | null> {
     return this.inventoryDao.findByProductAndDate(productId, dateOnly);
   }
 
-  public async updateQuantity(inventoryId: number, quantity: number): Promise<void> {
-    await this.inventoryDao.updateQuantity(inventoryId, quantity);
+  public async updateQuantity(id: number, quantity: number): Promise<void> {
+    await this.inventoryDao.updateQuantity(id, quantity);
   }
 
   public async findByProductIdOrderByExpiryDate(productId: number): Promise<Inventory[]> {
