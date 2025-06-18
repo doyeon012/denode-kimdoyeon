@@ -10,6 +10,7 @@ export const ErrorMessageType = {
   NOT_FOUND_STOCK_HISTORY: '재고 기록을 찾을 수 없습니다.',
   NOT_FOUND_PRODUCT: '상품을 찾을 수 없습니다.',
   INSUFFICIENT_STOCK: '재고가 부족합니다.',
+  INVENTORY_LOCKED: '재고가 잠겨 있습니다. 다른 사용자가 재고를 수정 중입니다.',
 
   TOKEN_NOT_PROVIDED: '토큰이 제공되지 않았습니다.',
   INVALID_TOKEN: '유효하지 않은 토큰입니다.',

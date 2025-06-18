@@ -24,9 +24,12 @@ export class InventoryDao {
   }
 
   async findByProductAndDate(productId: number, dateOnly: string): Promise<Inventory | null> {
-    return this.inventoryRepository.findOneBy({
-      productId,
-      expiryDate: Raw((alias) => `DATE(${alias}) = '${dateOnly}'`),
+    return this.inventoryRepository.findOne({
+      where: {
+        productId,
+        expiryDate: Raw((alias) => `DATE(${alias}) = '${dateOnly}'`),
+      },
+      lock: { mode: 'pessimistic_write' },
     });
   }
 
@@ -38,6 +41,7 @@ export class InventoryDao {
     return this.inventoryRepository.find({
       where: { productId },
       order: { expiryDate: 'ASC' },
+      lock: { mode: 'pessimistic_write' },
     });
   }
 

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { ProductComponent } from '@domain/product/component/product.component';
 import { InventoryComponent } from '@domain/product/component/inventory.component';
 import { ProductCreateRequest } from '@domain/product/dto/request/product.create.request';
@@ -69,69 +69,86 @@ export class ProductService {
     request: InventoryInboundRequest,
     requesterId: number,
   ): Promise<InventoryInboundResponse> {
-    const dateOnly = request.expiryDate.toISOString().split('T')[0];
-    const existingInventory = await this.inventoryComponent.findByProductAndDate(request.productId, dateOnly);
+    try {
+      const dateOnly = request.expiryDate.toISOString().split('T')[0];
+      const existingInventory = await this.inventoryComponent.findByProductAndDate(request.productId, dateOnly);
 
-    let inventoryId: number;
-    if (existingInventory) {
-      await this.inventoryComponent.updateQuantity(existingInventory.id, existingInventory.quantity + request.quantity);
-      inventoryId = existingInventory.id;
-    } else {
-      inventoryId = await this.inventoryComponent.create({
-        ...request,
-        userId: requesterId,
+      let inventoryId: number;
+      if (existingInventory) {
+        await this.inventoryComponent.updateQuantity(
+          existingInventory.id,
+          existingInventory.quantity + request.quantity,
+        );
+        inventoryId = existingInventory.id;
+      } else {
+        inventoryId = await this.inventoryComponent.create({
+          ...request,
+          userId: requesterId,
+        });
+      }
+
+      await this.stockHistoryComponent.create({
+        type: 'IN',
+        inventoryId: inventoryId,
+        quantity: request.quantity,
+        reason: request.reason,
+        productId: request.productId,
       });
+      return { inventoryId };
+    } catch (error) {
+      if (error.message?.toLowerCase().includes('lock')) {
+        throw new ConflictException(ErrorMessageType.INVENTORY_LOCKED);
+      }
+      throw error;
     }
-
-    await this.stockHistoryComponent.create({
-      type: 'IN',
-      inventoryId: inventoryId,
-      quantity: request.quantity,
-      reason: request.reason,
-      productId: request.productId,
-    });
-    return { inventoryId };
   }
 
   @Transactional()
   public async outboundInventory(request: InventoryOutboundRequest): Promise<void> {
-    const inventories = await this.inventoryComponent.findByProductIdOrderByExpiryDate(request.productId);
+    try {
+      const inventories = await this.inventoryComponent.findByProductIdOrderByExpiryDate(request.productId);
 
-    const totalQuantity = inventories.reduce((sum, inv) => sum + inv.quantity, 0);
-    if (totalQuantity < request.quantity) {
-      throw new BadRequestException(ErrorMessageType.INSUFFICIENT_STOCK);
-    }
-
-    let remainingQuantity = request.quantity;
-
-    for (const inventory of inventories) {
-      if (remainingQuantity <= 0) {
-        break;
+      const totalQuantity = inventories.reduce((sum, inv) => sum + inv.quantity, 0);
+      if (totalQuantity < request.quantity) {
+        throw new BadRequestException(ErrorMessageType.INSUFFICIENT_STOCK);
       }
 
-      if (inventory.quantity <= remainingQuantity) {
-        await this.stockHistoryComponent.create({
-          type: 'OUT',
-          inventoryId: inventory.id,
-          quantity: inventory.quantity,
-          reason: request.reason,
-          productId: request.productId,
-        });
+      let remainingQuantity = request.quantity;
 
-        remainingQuantity -= inventory.quantity;
-        await this.inventoryComponent.delete(inventory.id);
-      } else {
-        await this.stockHistoryComponent.create({
-          type: 'OUT',
-          inventoryId: inventory.id,
-          quantity: remainingQuantity,
-          reason: request.reason,
-          productId: request.productId,
-        });
+      for (const inventory of inventories) {
+        if (remainingQuantity <= 0) {
+          break;
+        }
 
-        await this.inventoryComponent.updateQuantity(inventory.id, inventory.quantity - remainingQuantity);
-        remainingQuantity = 0;
+        if (inventory.quantity <= remainingQuantity) {
+          await this.stockHistoryComponent.create({
+            type: 'OUT',
+            inventoryId: inventory.id,
+            quantity: inventory.quantity,
+            reason: request.reason,
+            productId: request.productId,
+          });
+
+          remainingQuantity -= inventory.quantity;
+          await this.inventoryComponent.delete(inventory.id);
+        } else {
+          await this.stockHistoryComponent.create({
+            type: 'OUT',
+            inventoryId: inventory.id,
+            quantity: remainingQuantity,
+            reason: request.reason,
+            productId: request.productId,
+          });
+
+          await this.inventoryComponent.updateQuantity(inventory.id, inventory.quantity - remainingQuantity);
+          remainingQuantity = 0;
+        }
       }
+    } catch (error) {
+      if (error.message?.toLowerCase().includes('lock')) {
+        throw new ConflictException(ErrorMessageType.INVENTORY_LOCKED);
+      }
+      throw error;
     }
   }
 
