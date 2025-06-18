@@ -13,7 +13,7 @@ export class InventoryItemResponse {
   @ApiProperty({ example: 100 })
   quantity: number;
 
-  @ApiProperty({ example: '2023-12-31' })
+  @ApiProperty({ example: '2025-06-25T00:00:00.000Z' })
   expiryDate: Date;
 
   @ApiProperty({ example: 1 })
