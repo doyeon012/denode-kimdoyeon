@@ -18,6 +18,7 @@ import { ProductUpdateRequest } from '@domain/product/dto/request/product.update
 import { Product } from '@domain/product/entity/product.entity';
 import { ProductStatusType } from '@enums/product.status.enum';
 import { InventoryInboundResponse } from '@domain/product/dto/response/inventory.inbound.response';
+import { ProductCreateResponse } from '@domain/product/dto/response/product.create.response';
 
 @Injectable()
 export class ProductService {
@@ -27,7 +28,7 @@ export class ProductService {
     private stockHistoryComponent: StockHistoryComponent,
   ) {}
 
-  public async createProduct(request: ProductCreateRequest, requesterId: number): Promise<number> {
+  public async createProduct(request: ProductCreateRequest, requesterId: number): Promise<ProductCreateResponse> {
     const product = await this.productComponent.findByName(request.name);
     if (product) {
       throw new BadRequestException(ErrorMessageType.PRODUCT_ALREADY_EXISTS);
@@ -38,7 +39,8 @@ export class ProductService {
       userId: requesterId,
     };
 
-    return await this.productComponent.create(createProductDto);
+    const productId: number = await this.productComponent.create(createProductDto);
+    return { productId };
   }
 
   public async updateProduct(request: ProductUpdateRequest): Promise<void> {

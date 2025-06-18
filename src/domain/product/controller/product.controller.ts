@@ -42,7 +42,7 @@ export class ProductController {
     type: ProductCreateRequest,
     description: 'Product creation information',
   })
-  async createProduct(@Body() request: ProductCreateRequest, @Token() user: AuthUser): Promise<number> {
+  async createProduct(@Body() request: ProductCreateRequest, @Token() user: AuthUser): Promise<ProductCreateResponse> {
     return this.productService.createProduct(request, user.id);
   }
 

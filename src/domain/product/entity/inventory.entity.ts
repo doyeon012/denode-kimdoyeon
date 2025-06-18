@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Product } from '@domain/product/entity/product.entity';
 import { BaseEntity } from '@domain/common/base.entity';
 import { Users } from '@domain/user/entity/users.entity';
+import { StockHistory } from '@domain/product/entity/stock.history.entity';
 
 @Entity()
 export class Inventory extends BaseEntity {
@@ -31,6 +32,9 @@ export class Inventory extends BaseEntity {
     name: 'users_id',
   })
   userId: number;
+
+  @OneToMany(() => StockHistory, (stockHistory) => stockHistory.inventory)
+  stockHistory: Promise<StockHistory[]>;
 
   @ManyToOne(() => Product, (product) => product.inventory, {
     nullable: false,

@@ -22,4 +22,7 @@ export class StockHistoryItemResponse {
   @ApiProperty({ example: 1 })
   productId: number;
 
+  @ApiProperty({ example: 1 })
+  inventoryId: number;
+
 }

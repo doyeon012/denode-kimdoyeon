@@ -2,6 +2,7 @@ import { BaseEntity } from '@domain/common/base.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Product } from '@domain/product/entity/product.entity';
 import { StockMovementEnum, StockMovementType } from '@enums/stock.movement.type.enum';
+import { Inventory } from '@domain/product/entity/inventory.entity';
 
 @Entity()
 export class StockHistory extends BaseEntity {
@@ -33,10 +34,23 @@ export class StockHistory extends BaseEntity {
   })
   productId: number;
 
+  @Column({
+    nullable: false,
+    name: 'inventory_id',
+  })
+  inventoryId: number;
+
   @ManyToOne(() => Product, (product) => product.stockHistory, {
     nullable: false,
     onUpdate: 'CASCADE',
   })
   @JoinColumn({ name: 'product_id' })
   product: Promise<Product>;
+
+  @ManyToOne(() => Inventory, (inventory) => inventory.stockHistory, {
+    nullable: false,
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'inventory_id' })
+  inventory: Promise<Inventory>;
 }
