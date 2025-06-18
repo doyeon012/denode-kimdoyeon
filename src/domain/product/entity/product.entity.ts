@@ -58,4 +58,21 @@ export class Product extends BaseEntity {
   })
   @JoinColumn({ name: 'users_id' })
   user: Promise<Users>;
+
+  updateBasicInfo({
+    name,
+    price,
+    description,
+    status,
+  }: {
+    name: string;
+    price: number;
+    description: string;
+    status: ProductStatusType;
+  }) {
+    this.name = name;
+    this.price = price;
+    this.description = description;
+    this.status = status;
+  }
 }

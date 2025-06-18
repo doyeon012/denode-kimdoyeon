@@ -18,4 +18,12 @@ export class ProductDao {
   async findByName(name: string): Promise<Product | null> {
     return this.productRepository.findOneBy({ name });
   }
+
+  async findById(id: number): Promise<Product | null> {
+    return this.productRepository.findOneBy({ id });
+  }
+
+  async update(product: Product): Promise<void> {
+    await this.productRepository.save(product);
+  }
 }

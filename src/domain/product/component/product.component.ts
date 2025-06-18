@@ -14,5 +14,12 @@ export class ProductComponent {
   public async findByName(name: string): Promise<Product | null> {
     return this.productDao.findByName(name);
   }
-}
 
+  public async findById(id: number): Promise<Product | null> {
+    return this.productDao.findById(id);
+  }
+
+  public async update(product: Product): Promise<void> {
+    await this.productDao.update(product);
+  }
+}

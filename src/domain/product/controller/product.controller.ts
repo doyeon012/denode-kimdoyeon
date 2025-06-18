@@ -21,6 +21,9 @@ import { OrderingOptionEnum } from '@enums/ordering.option.enum';
 import { InventoryListResponse } from '@domain/product/dto/response/inventory.list.response';
 import { StockHistoryListResponse } from '@domain/product/dto/response/stock.history.list.response';
 import { StockMovementEnum, StockMovementType } from '@enums/stock.movement.type.enum';
+import { ProductUpdateRequest } from '@domain/product/dto/request/product.update.request';
+import { ProductCreateResponse } from '@domain/product/dto/response/product.create.response';
+import { InventoryInboundResponse } from '@domain/product/dto/response/inventory.inbound.response';
 
 @ApiTags('products')
 @Controller('products')
@@ -29,7 +32,10 @@ export class ProductController {
 
   @Post('create')
   @ApiBearerAuth(AuthGuard.ACCESS_TOKEN_HEADER)
-  @ApiOkResponse({ description: 'Product created successfully' })
+  @ApiOkResponse({
+    description: 'Product created successfully',
+    type: ProductCreateResponse,
+  })
   @ApiUnauthorizedResponse({ description: ErrorMessageType.UNAUTHORIZED })
   @ApiConsumes('application/json')
   @ApiBody({
@@ -40,9 +46,26 @@ export class ProductController {
     return this.productService.createProduct(request, user.id);
   }
 
+  @Post('update')
+  @ApiBearerAuth(AuthGuard.ACCESS_TOKEN_HEADER)
+  @ApiOkResponse({ description: 'Product updated successfully' })
+  @ApiUnauthorizedResponse({ description: ErrorMessageType.UNAUTHORIZED })
+  @ApiBadRequestResponse({ description: ErrorMessageType.NOT_FOUND_PRODUCT })
+  @ApiConsumes('application/json')
+  @ApiBody({
+    type: ProductUpdateRequest,
+    description: 'Product update information',
+  })
+  async updateProduct(@Body() request: ProductUpdateRequest): Promise<void> {
+    await this.productService.updateProduct(request);
+  }
+
   @Post('inventory/inbound')
   @ApiBearerAuth(AuthGuard.ACCESS_TOKEN_HEADER)
-  @ApiOkResponse({ description: 'Inventory inbound successfully' })
+  @ApiOkResponse({
+    description: 'Inventory inbound successfully',
+    type: InventoryInboundResponse,
+  })
   @ApiUnauthorizedResponse({ description: ErrorMessageType.UNAUTHORIZED })
   @ApiBadRequestResponse({ description: ErrorMessageType.NOT_FOUND_INVENTORY })
   @ApiConsumes('application/json')
@@ -50,8 +73,11 @@ export class ProductController {
     type: InventoryInboundRequest,
     description: 'Inventory inbound information',
   })
-  async inboundInventory(@Body() request: InventoryInboundRequest, @Token() user: AuthUser): Promise<void> {
-    await this.productService.inboundInventory(request, user.id);
+  async inboundInventory(
+    @Body() request: InventoryInboundRequest,
+    @Token() user: AuthUser,
+  ): Promise<InventoryInboundResponse> {
+    return await this.productService.inboundInventory(request, user.id);
   }
 
   @Post('inventory/outbound')
@@ -64,8 +90,8 @@ export class ProductController {
     type: InventoryOutboundRequest,
     description: 'Inventory outbound information',
   })
-  async outboundInventory(@Body() request: InventoryOutboundRequest, @Token() user: AuthUser): Promise<void> {
-    await this.productService.outboundInventory(request, user.id);
+  async outboundInventory(@Body() request: InventoryOutboundRequest): Promise<void> {
+    return await this.productService.outboundInventory(request);
   }
 
   @Get('inventory')
