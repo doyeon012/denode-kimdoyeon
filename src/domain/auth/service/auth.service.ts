@@ -10,7 +10,7 @@ import { ErrorMessageType } from '@enums/error.message.enum';
 
 @Injectable()
 export class AuthService {
-  private static readonly ACCESS_TOKEN_TTL = '5m' as const;
+  private static readonly ACCESS_TOKEN_TTL = '30m' as const;
   private static readonly REFRESH_TOKEN_TTL = '1day' as const;
 
   private readonly ACCESS_TOKEN_SECRET_KEY: string;
