@@ -14,6 +14,11 @@ import { Inventory } from '@domain/product/entity/inventory.entity';
 import { StockHistoryListResponse } from '@domain/product/dto/response/stock.history.list.response';
 import { StockHistory } from '@domain/product/entity/stock.history.entity';
 import { StockMovementType } from '@enums/stock.movement.type.enum';
+import { ProductUpdateRequest } from '@domain/product/dto/request/product.update.request';
+import { Product } from '@domain/product/entity/product.entity';
+import { ProductStatusType } from '@enums/product.status.enum';
+import { InventoryInboundResponse } from '@domain/product/dto/response/inventory.inbound.response';
+import { ProductCreateResponse } from '@domain/product/dto/response/product.create.response';
 
 @Injectable()
 export class ProductService {
@@ -23,7 +28,7 @@ export class ProductService {
     private stockHistoryComponent: StockHistoryComponent,
   ) {}
 
-  public async createProduct(request: ProductCreateRequest, requesterId: number): Promise<number> {
+  public async createProduct(request: ProductCreateRequest, requesterId: number): Promise<ProductCreateResponse> {
     const product = await this.productComponent.findByName(request.name);
     if (product) {
       throw new BadRequestException(ErrorMessageType.PRODUCT_ALREADY_EXISTS);
@@ -34,11 +39,36 @@ export class ProductService {
       userId: requesterId,
     };
 
-    return await this.productComponent.create(createProductDto);
+    const productId: number = await this.productComponent.create(createProductDto);
+    return { productId };
+  }
+
+  public async updateProduct(request: ProductUpdateRequest): Promise<void> {
+    const product: Product | null = await this.productComponent.findById(request.productId);
+
+    if (!product) {
+      throw new BadRequestException(ErrorMessageType.NOT_FOUND_PRODUCT);
+    }
+
+    const name: string = request.name || product.name;
+    const price: number = request.price || product.price;
+    const description: string = request.description || product.description;
+    const status: ProductStatusType = request.status || product.status;
+
+    product.updateBasicInfo({
+      name,
+      price,
+      description,
+      status,
+    });
+    await this.productComponent.update(product);
   }
 
   @Transactional()
-  public async inboundInventory(request: InventoryInboundRequest, requesterId: number): Promise<void> {
+  public async inboundInventory(
+    request: InventoryInboundRequest,
+    requesterId: number,
+  ): Promise<InventoryInboundResponse> {
     const dateOnly = request.expiryDate.toISOString().split('T')[0];
     const existingInventory = await this.inventoryComponent.findByProductAndDate(request.productId, dateOnly);
 
@@ -60,11 +90,17 @@ export class ProductService {
       reason: request.reason,
       productId: request.productId,
     });
+    return { inventoryId };
   }
 
   @Transactional()
-  public async outboundInventory(request: InventoryOutboundRequest, requesterId: number): Promise<void> {
+  public async outboundInventory(request: InventoryOutboundRequest): Promise<void> {
     const inventories = await this.inventoryComponent.findByProductIdOrderByExpiryDate(request.productId);
+
+    const totalQuantity = inventories.reduce((sum, inv) => sum + inv.quantity, 0);
+    if (totalQuantity < request.quantity) {
+      throw new BadRequestException(ErrorMessageType.INSUFFICIENT_STOCK);
+    }
 
     let remainingQuantity = request.quantity;
 

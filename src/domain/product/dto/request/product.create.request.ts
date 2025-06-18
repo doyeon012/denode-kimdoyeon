@@ -3,17 +3,17 @@ import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { ProductStatusEnum, ProductStatusType } from '@enums/product.status.enum';
 
 export class ProductCreateRequest {
-  @ApiProperty({ example: 'kim' })
+  @ApiProperty({ example: 'product1' })
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty()
+  @ApiProperty( { example: 1000 })
   @IsNumber()
   @IsNotEmpty()
   price: number;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'A great product' })
   @IsString()
   @IsNotEmpty()
   description: string;
