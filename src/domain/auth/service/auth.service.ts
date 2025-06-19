@@ -1,13 +1,14 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { TokenResponse } from '@domain/auth/dto/response/token.response';
 import { LoginRequest } from '@domain/auth/dto/request/login.request';
 import { RegisterRequest } from '@domain/auth/dto/request/register.request';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { UsersComponent } from '@domain/user/component/users.component';
-import * as bcrypt from 'bcrypt';
 import { ErrorMessageType } from '@enums/error.message.enum';
-
+import { RefreshTokenRequest } from '@domain/auth/dto/request/refresh.token.request';
+import * as bcrypt from 'bcrypt';
+import { AuthUser } from '@root/decorator/toekn.decorator';
 @Injectable()
 export class AuthService {
   private static readonly ACCESS_TOKEN_TTL = '30m' as const;
@@ -58,6 +59,27 @@ export class AuthService {
     return {
       accessToken,
       refreshToken,
+    };
+  }
+
+  public async refreshToken(refreshTokenRequest: RefreshTokenRequest): Promise<TokenResponse> {
+    let payload: { id: number };
+    try {
+      payload = this.jwtService.verify(refreshTokenRequest.refreshToken, { secret: this.REFRESH_TOKEN_SECRET_KEY });
+    } catch (e) {
+      throw new UnauthorizedException(ErrorMessageType.INVALID_TOKEN);
+    }
+
+    if (!payload?.id) {
+      throw new BadRequestException(ErrorMessageType.TOKEN_NOT_PROVIDED);
+    }
+
+    const newAccessToken = this.generateAccessToken(payload.id);
+    const newRefreshToken = this.generateRefreshToken(payload.id);
+
+    return {
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
     };
   }
 

@@ -5,6 +5,7 @@ import { Public } from '@decorator/public.decorator';
 import { TokenResponse } from '@domain/auth/dto/response/token.response';
 import { RegisterRequest } from '@domain/auth/dto/request/register.request';
 import { LoginRequest } from '@domain/auth/dto/request/login.request';
+import { RefreshTokenRequest } from '@domain/auth/dto/request/refresh.token.request';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -34,5 +35,19 @@ export class AuthController {
   })
   async login(@Body() request: LoginRequest): Promise<TokenResponse> {
     return this.authService.login(request);
+  }
+
+  @Public()
+  @Post('refresh-token')
+  @ApiOkResponse({
+    description: 'Refresh token successful',
+    type: TokenResponse,
+  })
+  @ApiBody({
+    type: RefreshTokenRequest,
+    description: 'Refresh token information to get new access and refresh tokens',
+  })
+  async refreshToken(@Body() refreshTokenRequest: RefreshTokenRequest): Promise<TokenResponse> {
+    return this.authService.refreshToken(refreshTokenRequest);
   }
 }
