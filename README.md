@@ -1,6 +1,6 @@
 ## 서비스 실행 방법
 
-1. **프로젝트 클론 또는 포크**
+1. **프로젝트 클론**
 
    ```bash
    git clone https://github.com/doyeon012/denode.git
