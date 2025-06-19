@@ -11,7 +11,6 @@ export class InventoryComponent {
     return this.inventoryDao.create(createInventoryDto);
   }
 
-
   public async findById(id: number): Promise<Inventory | null> {
     return this.inventoryDao.findById(id);
   }
