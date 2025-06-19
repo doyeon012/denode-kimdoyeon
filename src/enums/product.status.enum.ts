@@ -1,6 +1,6 @@
 export const ProductStatusEnum = {
-  valid: 'valid',
-  expired: 'expired',
+  valid: 'VALID',
+  expired: 'EXPIRED',
 } as const;
 
 export type ProductStatusType = (typeof ProductStatusEnum)[keyof typeof ProductStatusEnum];
