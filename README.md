@@ -3,7 +3,7 @@
 1. **프로젝트 클론**
 
    ```bash
-   git clone https://github.com/doyeon012/denode.git
+   git clone https://github.com/doyeon012/denode-kimdoyeon.git
    cd denode-kimdoyeon
    ```
 
